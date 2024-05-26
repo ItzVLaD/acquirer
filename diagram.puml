@@ -1,0 +1,973 @@
+@startuml diagram
+set namespaceSeparator ::
+
+class "acquirer::app.dart::App" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::app.dart::App"
+
+class "acquirer::bindings::general_binding.dart::GeneralBindings" {
+  +void dependencies()
+}
+
+"get::get_instance::src::bindings_interface.dart::Bindings" <|-- "acquirer::bindings::general_binding.dart::GeneralBindings"
+
+class "acquirer::bindings::network_manager.dart::NetworkManager" {
+  -Connectivity _connectivity
+  -StreamSubscription<ConnectivityResult> _connectivitySubscription
+  -Rx<ConnectivityResult> _connectionStatus
+  {static} +NetworkManager instance
+  +void onInit()
+  -dynamic _updateConnectionStatus()
+  +dynamic isConnected()
+  +void onClose()
+}
+
+"acquirer::bindings::network_manager.dart::NetworkManager" o-- "connectivity_plus::connectivity_plus.dart::Connectivity"
+"acquirer::bindings::network_manager.dart::NetworkManager" o-- "dart::async::StreamSubscription<ConnectivityResult>"
+"acquirer::bindings::network_manager.dart::NetworkManager" o-- "get::get_rx::src::rx_types::rx_types.dart::Rx<ConnectivityResult>"
+"acquirer::bindings::network_manager.dart::NetworkManager" o-- "acquirer::bindings::network_manager.dart::NetworkManager"
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "acquirer::bindings::network_manager.dart::NetworkManager"
+
+class "acquirer::common::styles::spacing_styles.dart::SpacingStyle" {
+  {static} +EdgeInsetsGeometry paddingWithAppBarHeight
+}
+
+"acquirer::common::styles::spacing_styles.dart::SpacingStyle" o-- "flutter::src::painting::edge_insets.dart::EdgeInsetsGeometry"
+
+class "acquirer::common::widgets::appbar::appbar.dart::MyAppBar" {
+  +Widget? title
+  +bool showBackArrow
+  +IconData? leadingIcon
+  +List<Widget>? actions
+  +void Function()? leadingOnPressed
+  +Widget? additionalContent
+  +Color? color
+  +Color? arrowColor
+  +double verticalPadding
+  +Size preferredSize
+  +Widget build()
+}
+
+"acquirer::common::widgets::appbar::appbar.dart::MyAppBar" o-- "flutter::src::widgets::framework.dart::Widget"
+"acquirer::common::widgets::appbar::appbar.dart::MyAppBar" o-- "flutter::src::widgets::icon_data.dart::IconData"
+"acquirer::common::widgets::appbar::appbar.dart::MyAppBar" o-- "dart::ui::void Function()"
+"acquirer::common::widgets::appbar::appbar.dart::MyAppBar" o-- "dart::ui::Color"
+"acquirer::common::widgets::appbar::appbar.dart::MyAppBar" o-- "dart::ui::Size"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::common::widgets::appbar::appbar.dart::MyAppBar"
+"flutter::src::widgets::preferred_size.dart::PreferredSizeWidget" <|-- "acquirer::common::widgets::appbar::appbar.dart::MyAppBar"
+
+class "acquirer::common::widgets::custom_shapes::containers::rounded_container.dart::RoundedContainer" {
+  +double? width
+  +double? height
+  +double radius
+  +Widget? child
+  +bool showBorder
+  +Color borderColor
+  +Color backgroundColor
+  +EdgeInsetsGeometry? padding
+  +EdgeInsetsGeometry? margin
+  +Widget build()
+}
+
+"acquirer::common::widgets::custom_shapes::containers::rounded_container.dart::RoundedContainer" o-- "flutter::src::widgets::framework.dart::Widget"
+"acquirer::common::widgets::custom_shapes::containers::rounded_container.dart::RoundedContainer" o-- "dart::ui::Color"
+"acquirer::common::widgets::custom_shapes::containers::rounded_container.dart::RoundedContainer" o-- "flutter::src::painting::edge_insets.dart::EdgeInsetsGeometry"   
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::common::widgets::custom_shapes::containers::rounded_container.dart::RoundedContainer"        
+
+class "acquirer::common::widgets::icons::circular_icon.dart::CircularIcon" {
+  +double? height
+  +double? width
+  +double? size
+  +IconData icon
+  +Color? color
+  +Color? backgroundColor
+  +void Function()? onPressed
+  +Widget build()
+}
+
+"acquirer::common::widgets::icons::circular_icon.dart::CircularIcon" o-- "flutter::src::widgets::icon_data.dart::IconData"
+"acquirer::common::widgets::icons::circular_icon.dart::CircularIcon" o-- "dart::ui::Color"
+"acquirer::common::widgets::icons::circular_icon.dart::CircularIcon" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::common::widgets::icons::circular_icon.dart::CircularIcon"
+
+class "acquirer::common::widgets::images::rounded_image.dart::RoundedImage" {
+  +double? width
+  +double? height
+  +String imageUrl
+  +bool applyImageRadius
+  +BoxBorder? border
+  +Color backgroundColor
+  +BoxFit? fit
+  +EdgeInsetsGeometry? padding
+  +bool isNetworkImage
+  +void Function()? onPressed
+  +double borderRadius
+  +double? imageRadius
+  +Widget build()
+}
+
+"acquirer::common::widgets::images::rounded_image.dart::RoundedImage" o-- "flutter::src::painting::box_border.dart::BoxBorder"
+"acquirer::common::widgets::images::rounded_image.dart::RoundedImage" o-- "dart::ui::Color"
+"acquirer::common::widgets::images::rounded_image.dart::RoundedImage" o-- "flutter::src::painting::box_fit.dart::BoxFit"
+"acquirer::common::widgets::images::rounded_image.dart::RoundedImage" o-- "flutter::src::painting::edge_insets.dart::EdgeInsetsGeometry"
+"acquirer::common::widgets::images::rounded_image.dart::RoundedImage" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::common::widgets::images::rounded_image.dart::RoundedImage"
+
+class "acquirer::common::widgets::layouts::grid_layout.dart::GridLayout" {
+  +int itemCount
+  +double? mainAxisExtent
+  +Widget? Function(BuildContext, int) itemBuilder
+  +int crossAxisCount
+  +double spacing
+  +Widget build()
+}
+
+"acquirer::common::widgets::layouts::grid_layout.dart::GridLayout" o-- "null::Widget Function(BuildContext, int)"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::common::widgets::layouts::grid_layout.dart::GridLayout"
+
+class "acquirer::common::widgets::products::favourite_icon::favourite_icon.dart::FavouriteIcon" {
+  +String productId
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::common::widgets::products::favourite_icon::favourite_icon.dart::FavouriteIcon"
+
+class "acquirer::common::widgets::products::product_cards::product_card_vertical.dart::ProductCardVertical" {
+  +void Function()? onPressed
+  +ProductModel product
+  +Widget build()
+}
+
+"acquirer::common::widgets::products::product_cards::product_card_vertical.dart::ProductCardVertical" o-- "dart::ui::void Function()"
+"acquirer::common::widgets::products::product_cards::product_card_vertical.dart::ProductCardVertical" o-- "acquirer::features::shop::models::product_model.dart::ProductModel"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::common::widgets::products::product_cards::product_card_vertical.dart::ProductCardVertical"   
+
+class "acquirer::common::widgets::products::product_cards::product_cart_add_button.dart::ProductCartAddToCartButton" {
+  +ProductModel product
+  +String brand
+  +Widget build()
+}
+
+"acquirer::common::widgets::products::product_cards::product_cart_add_button.dart::ProductCartAddToCartButton" o-- "acquirer::features::shop::models::product_model.dart::ProductModel"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::common::widgets::products::product_cards::product_cart_add_button.dart::ProductCartAddToCartButton"
+
+class "acquirer::common::widgets::shimmer.dart::ShimmerEffect" {
+  +double width
+  +double height
+  +double radius
+  +Color? color
+  +Widget build()
+}
+
+"acquirer::common::widgets::shimmer.dart::ShimmerEffect" o-- "dart::ui::Color"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::common::widgets::shimmer.dart::ShimmerEffect"
+
+class "acquirer::data::repositories::authentication::authentication_repository.dart::AuthenticationRepository" {
+  +GetStorage deviceStorage
+  -FirebaseAuth _auth
+  {static} +AuthenticationRepository instance
+  +User? authUser
+  +void onReady()
+  +dynamic screenRedirect()
+  +dynamic signInWithGoogle()
+  +dynamic logout()
+}
+
+"acquirer::data::repositories::authentication::authentication_repository.dart::AuthenticationRepository" o-- "get_storage::src::storage_impl.dart::GetStorage"        
+"acquirer::data::repositories::authentication::authentication_repository.dart::AuthenticationRepository" o-- "firebase_auth::firebase_auth.dart::FirebaseAuth"        
+"acquirer::data::repositories::authentication::authentication_repository.dart::AuthenticationRepository" o-- "acquirer::data::repositories::authentication::authentication_repository.dart::AuthenticationRepository"
+"acquirer::data::repositories::authentication::authentication_repository.dart::AuthenticationRepository" o-- "firebase_auth::firebase_auth.dart::User"
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "acquirer::data::repositories::authentication::authentication_repository.dart::AuthenticationRepository"
+
+class "acquirer::data::repositories::brands::brand_repository.dart::BrandRepository" {
+  -FirebaseFirestore _db
+  {static} +BrandRepository instance
+  +dynamic getAllBrands()
+  +dynamic uploadDummyData()
+}
+
+"acquirer::data::repositories::brands::brand_repository.dart::BrandRepository" o-- "cloud_firestore::cloud_firestore.dart::FirebaseFirestore"
+"acquirer::data::repositories::brands::brand_repository.dart::BrandRepository" o-- "acquirer::data::repositories::brands::brand_repository.dart::BrandRepository"     
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "acquirer::data::repositories::brands::brand_repository.dart::BrandRepository"       
+
+class "acquirer::data::repositories::categories::category_repository.dart::CategoryRepository" {
+  -FirebaseFirestore _db
+  {static} +CategoryRepository instance
+  +dynamic getAllCategories()
+  +dynamic uploadDummyData()
+}
+
+"acquirer::data::repositories::categories::category_repository.dart::CategoryRepository" o-- "cloud_firestore::cloud_firestore.dart::FirebaseFirestore"
+"acquirer::data::repositories::categories::category_repository.dart::CategoryRepository" o-- "acquirer::data::repositories::categories::category_repository.dart::CategoryRepository"
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "acquirer::data::repositories::categories::category_repository.dart::CategoryRepository"
+
+class "acquirer::data::repositories::products::product_repository.dart::ProductRepository" {
+  -FirebaseFirestore _db
+  {static} +ProductRepository instance
+  +dynamic getAllProducts()
+  +dynamic uploadDummyData()
+  +dynamic getFavouriteProducts()
+}
+
+"acquirer::data::repositories::products::product_repository.dart::ProductRepository" o-- "cloud_firestore::cloud_firestore.dart::FirebaseFirestore"
+"acquirer::data::repositories::products::product_repository.dart::ProductRepository" o-- "acquirer::data::repositories::products::product_repository.dart::ProductRepository"
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "acquirer::data::repositories::products::product_repository.dart::ProductRepository" 
+
+class "acquirer::data::repositories::user::user_repository.dart::UserRepository" {
+  -FirebaseFirestore _db
+  {static} +UserRepository instance
+  +dynamic saveUserRecord()
+  +dynamic fetchUserDetails()
+  +dynamic updateUserDetails()
+  +dynamic updateSingleField()
+}
+
+"acquirer::data::repositories::user::user_repository.dart::UserRepository" o-- "cloud_firestore::cloud_firestore.dart::FirebaseFirestore"
+"acquirer::data::repositories::user::user_repository.dart::UserRepository" o-- "acquirer::data::repositories::user::user_repository.dart::UserRepository"
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "acquirer::data::repositories::user::user_repository.dart::UserRepository"
+
+class "acquirer::data::services::firebase_storage_service.dart::FirebaseStorageService" {
+  -FirebaseStorage _firebaseStorage
+  {static} +FirebaseStorageService instance
+  +dynamic getImageDataFromAssets()
+  +dynamic uploadImageData()
+  +dynamic uploadImageFile()
+}
+
+"acquirer::data::services::firebase_storage_service.dart::FirebaseStorageService" o-- "firebase_storage::firebase_storage.dart::FirebaseStorage"
+"acquirer::data::services::firebase_storage_service.dart::FirebaseStorageService" o-- "acquirer::data::services::firebase_storage_service.dart::FirebaseStorageService"
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "acquirer::data::services::firebase_storage_service.dart::FirebaseStorageService"    
+
+class "acquirer::features::authentication::controllers::login_controller.dart::LoginController" {
+  +GetStorage localStorage
+  +UserController userController
+  +dynamic googleSignIn()
+}
+
+"acquirer::features::authentication::controllers::login_controller.dart::LoginController" o-- "get_storage::src::storage_impl.dart::GetStorage"
+"acquirer::features::authentication::controllers::login_controller.dart::LoginController" o-- "acquirer::features::personalization::controllers::user_controller.dart::UserController"
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "acquirer::features::authentication::controllers::login_controller.dart::LoginController"
+
+class "acquirer::features::authentication::screens::login.dart::LoginScreen" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::authentication::screens::login.dart::LoginScreen"
+
+class "acquirer::features::personalization::controllers::user_controller.dart::UserController" {
+  +Rx<UserModel> user
+  -UserRepository _userRepository
+  {static} +UserController instance
+  +void onInit()
+  +dynamic fetchUserRecord()
+  +dynamic saveUserRecord()
+  +dynamic logout()
+}
+
+"acquirer::features::personalization::controllers::user_controller.dart::UserController" o-- "get::get_rx::src::rx_types::rx_types.dart::Rx<UserModel>"
+"acquirer::features::personalization::controllers::user_controller.dart::UserController" o-- "acquirer::data::repositories::user::user_repository.dart::UserRepository"
+"acquirer::features::personalization::controllers::user_controller.dart::UserController" o-- "acquirer::features::personalization::controllers::user_controller.dart::UserController"
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "acquirer::features::personalization::controllers::user_controller.dart::UserController"
+
+class "acquirer::features::personalization::models::user_model.dart::UserModel" {
+  +String id
+  +String username
+  +String email
+  +String profilePicture
+  {static} +UserModel empty()
+  +Map<String, dynamic> toJson()
+}
+
+class "acquirer::features::screen_loader::full_screen_loader.dart::FullScreenLoader" {
+  {static} +void openLoadingDialog()
+  {static} +dynamic stopLoading()
+}
+
+class "acquirer::features::screen_loader::widgets::animation_loader_widget.dart::AnimationLoaderWidget" {
+  +String text
+  +String animation
+  +bool showAction
+  +String? actionText
+  +void Function()? onActionPressed
+  +Widget build()
+}
+
+"acquirer::features::screen_loader::widgets::animation_loader_widget.dart::AnimationLoaderWidget" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::screen_loader::widgets::animation_loader_widget.dart::AnimationLoaderWidget"       
+
+class "acquirer::features::shop::controllers::brand_controller.dart::BrandController" {
+  +RxBool isLoading
+  -BrandRepository _brandRepository
+  +RxList<BrandModel> allBrands
+  {static} +BrandController instance
+  +void onInit()
+  +dynamic fetchBrands()
+  +dynamic uploadData()
+}
+
+"acquirer::features::shop::controllers::brand_controller.dart::BrandController" o-- "get::get_rx::src::rx_types::rx_types.dart::RxBool"
+"acquirer::features::shop::controllers::brand_controller.dart::BrandController" o-- "acquirer::data::repositories::brands::brand_repository.dart::BrandRepository"    
+"acquirer::features::shop::controllers::brand_controller.dart::BrandController" o-- "get::get_rx::src::rx_types::rx_types.dart::RxList<BrandModel>"
+"acquirer::features::shop::controllers::brand_controller.dart::BrandController" o-- "acquirer::features::shop::controllers::brand_controller.dart::BrandController"   
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "acquirer::features::shop::controllers::brand_controller.dart::BrandController"      
+
+class "acquirer::features::shop::controllers::category_controller.dart::CategoryController" {
+  +RxBool isLoading
+  -CategoryRepository _categoryRepository
+  +RxList<CategoryModel> allCategories
+  +RxList<CategoryModel> featuredCategories
+  {static} +CategoryController instance
+  +void onInit()
+  +dynamic fetchCategories()
+  +dynamic uploadData()
+}
+
+"acquirer::features::shop::controllers::category_controller.dart::CategoryController" o-- "get::get_rx::src::rx_types::rx_types.dart::RxBool"
+"acquirer::features::shop::controllers::category_controller.dart::CategoryController" o-- "acquirer::data::repositories::categories::category_repository.dart::CategoryRepository"
+"acquirer::features::shop::controllers::category_controller.dart::CategoryController" o-- "get::get_rx::src::rx_types::rx_types.dart::RxList<CategoryModel>"
+"acquirer::features::shop::controllers::category_controller.dart::CategoryController" o-- "acquirer::features::shop::controllers::category_controller.dart::CategoryController"
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "acquirer::features::shop::controllers::category_controller.dart::CategoryController"
+class "acquirer::features::shop::controllers::product::cart_controller.dart::CartController" {
+  +RxInt noOfCartItems
+  +RxDouble totalCartPrice
+  +RxInt productQuantityInCart
+  +RxList<CartItemModel> cartItems
+  {static} +CartController instance
+  +void addToCart()
+  +CartItemModel convertToCartItem()
+  +void updateCart()
+  +void updateCartTotals()
+  +void saveCartItem()
+  +void loadCartItems()
+  +int getProductQuantityInCart()
+  +void clearCart()
+  +void addOneToCart()
+  +void removeOneFromCart()
+  +void removeFromCartDialog()
+  +void updateAlreadyAddedProductCount()
+}
+
+"acquirer::features::shop::controllers::product::cart_controller.dart::CartController" o-- "get::get_rx::src::rx_types::rx_types.dart::RxInt"
+"acquirer::features::shop::controllers::product::cart_controller.dart::CartController" o-- "get::get_rx::src::rx_types::rx_types.dart::RxDouble"
+"acquirer::features::shop::controllers::product::cart_controller.dart::CartController" o-- "get::get_rx::src::rx_types::rx_types.dart::RxList<CartItemModel>"
+"acquirer::features::shop::controllers::product::cart_controller.dart::CartController" o-- "acquirer::features::shop::controllers::product::cart_controller.dart::CartController"
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "acquirer::features::shop::controllers::product::cart_controller.dart::CartController"
+
+class "acquirer::features::shop::controllers::product::favourite_controller.dart::FavouriteController" {
+  +RxMap<String, bool> favorites
+  {static} +FavouriteController instance
+  +void onInit()
+  +void initFavorites()
+  +bool isFavourite()
+  +void toggleFavouriteProduct()
+  +void saveFavoritesToStorage()
+  +dynamic favoriteProducts()
+}
+
+"acquirer::features::shop::controllers::product::favourite_controller.dart::FavouriteController" o-- "get::get_rx::src::rx_types::rx_types.dart::RxMap<String, bool>" 
+"acquirer::features::shop::controllers::product::favourite_controller.dart::FavouriteController" o-- "acquirer::features::shop::controllers::product::favourite_controller.dart::FavouriteController"
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "acquirer::features::shop::controllers::product::favourite_controller.dart::FavouriteController"
+
+class "acquirer::features::shop::controllers::product::image_controller.dart::ImageController" {
+  +RxString selectedProductImage
+  {static} +ImageController instance
+  +List<String> getAllProductImages()
+}
+
+"acquirer::features::shop::controllers::product::image_controller.dart::ImageController" o-- "get::get_rx::src::rx_types::rx_types.dart::RxString"
+"acquirer::features::shop::controllers::product::image_controller.dart::ImageController" o-- "acquirer::features::shop::controllers::product::image_controller.dart::ImageController"
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "acquirer::features::shop::controllers::product::image_controller.dart::ImageController"
+
+class "acquirer::features::shop::controllers::product::product_controller.dart::ProductController" {
+  +RxBool isLoading
+  -ProductRepository _productRepository
+  +RxList<ProductModel> allProducts
+  {static} +ProductController instance
+  +void onInit()
+  +dynamic fetchAllProducts()
+  +dynamic uploadData()
+}
+
+"acquirer::features::shop::controllers::product::product_controller.dart::ProductController" o-- "get::get_rx::src::rx_types::rx_types.dart::RxBool"
+"acquirer::features::shop::controllers::product::product_controller.dart::ProductController" o-- "acquirer::data::repositories::products::product_repository.dart::ProductRepository"
+"acquirer::features::shop::controllers::product::product_controller.dart::ProductController" o-- "get::get_rx::src::rx_types::rx_types.dart::RxList<ProductModel>"    
+"acquirer::features::shop::controllers::product::product_controller.dart::ProductController" o-- "acquirer::features::shop::controllers::product::product_controller.dart::ProductController"
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "acquirer::features::shop::controllers::product::product_controller.dart::ProductController"
+
+class "acquirer::features::shop::models::brand_model.dart::BrandModel" {
+  +String id
+  +String name
+  +String image
+  {static} +BrandModel empty()
+  +Map<String, dynamic> toJson()
+}
+
+class "acquirer::features::shop::models::cart_item_model.dart::CartItemModel" {
+  +String productId
+  +String title
+  +double price
+  +String? image
+  +int quantity
+  +String? brandName
+  {static} +CartItemModel empty()
+  +Map<String, dynamic> toJson()
+}
+
+class "acquirer::features::shop::models::category_model.dart::CategoryModel" {
+  +String id
+  +String name
+  +String image
+  +String parentId
+  +bool isFeatured
+  {static} +CategoryModel empty()
+  +Map<String, dynamic> toJson()
+}
+
+class "acquirer::features::shop::models::product_attribute_model.dart::ProductAttributeModel" {
+  +String name
+  +Map<String, Map<String, dynamic>> attributes
+  {static} +ProductAttributeModel empty()
+  +Map<String, dynamic> toJson()
+}
+
+class "acquirer::features::shop::models::product_model.dart::ProductModel" {
+  +String id
+  +String title
+  +int stock
+  +double price
+  +String thumbnail
+  +List<String>? images
+  +String? brandId
+  +String? categoryId
+  +String? sku
+  +String? description
+  +ProductAttributeModel? productAttributes
+  +int? reviews
+  +double? rating
+  {static} +ProductModel empty()
+  +Map<String, dynamic> toJson()
+}
+
+"acquirer::features::shop::models::product_model.dart::ProductModel" o-- "acquirer::features::shop::models::product_attribute_model.dart::ProductAttributeModel"      
+
+class "acquirer::features::shop::screens::cart::cart.dart::CartScreen" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::cart::cart.dart::CartScreen"
+
+class "acquirer::features::shop::screens::cart::widgets::bottom_button.dart::BottomButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::cart::widgets::bottom_button.dart::BottomButton"
+
+class "acquirer::features::shop::screens::cart::widgets::product_cart_horizontal.dart::ProductCartHorizontal" {
+  +void Function()? onPressed
+  +CartItemModel item
+  +Widget build()
+}
+
+"acquirer::features::shop::screens::cart::widgets::product_cart_horizontal.dart::ProductCartHorizontal" o-- "dart::ui::void Function()"
+"acquirer::features::shop::screens::cart::widgets::product_cart_horizontal.dart::ProductCartHorizontal" o-- "acquirer::features::shop::models::cart_item_model.dart::CartItemModel"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::cart::widgets::product_cart_horizontal.dart::ProductCartHorizontal"
+
+class "acquirer::features::shop::screens::home::home.dart::HomeScreen" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::home::home.dart::HomeScreen"
+
+class "acquirer::features::shop::screens::home::widgets::home_appbar.dart::HomeAppBar" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::home::widgets::home_appbar.dart::HomeAppBar"
+
+class "acquirer::features::shop::screens::product_details::product_details.dart::ProductDetails" {
+  +ProductModel product
+  +bool showFooter
+  +Widget build()
+}
+
+"acquirer::features::shop::screens::product_details::product_details.dart::ProductDetails" o-- "acquirer::features::shop::models::product_model.dart::ProductModel"   
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::product_details::product_details.dart::ProductDetails"
+
+class "acquirer::features::shop::screens::product_details::widgets::bottom_add.dart::BottomAddToCart" {
+  +ProductModel product
+  +Widget build()
+}
+
+"acquirer::features::shop::screens::product_details::widgets::bottom_add.dart::BottomAddToCart" o-- "acquirer::features::shop::models::product_model.dart::ProductModel"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::product_details::widgets::bottom_add.dart::BottomAddToCart"
+
+class "acquirer::features::shop::screens::product_details::widgets::product_meta_data.dart::ProductMetaData" {
+  +ProductModel product
+  +Widget build()
+}
+
+"acquirer::features::shop::screens::product_details::widgets::product_meta_data.dart::ProductMetaData" o-- "acquirer::features::shop::models::product_model.dart::ProductModel"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::product_details::widgets::product_meta_data.dart::ProductMetaData"  
+
+class "acquirer::features::shop::screens::product_details::widgets::product_titile_text.dart::ProductTitleText" {
+  +String text
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::product_details::widgets::product_titile_text.dart::ProductTitleText"
+
+class "acquirer::features::shop::screens::product_details::widgets::product_value_text.dart::ProductValueText" {
+  +String text
+  +TextAlign? textAlign
+  +Widget build()
+}
+
+"acquirer::features::shop::screens::product_details::widgets::product_value_text.dart::ProductValueText" o-- "dart::ui::TextAlign"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::product_details::widgets::product_value_text.dart::ProductValueText"
+class "acquirer::features::shop::screens::search::category_search.dart::CategorySearch" {
+  +String id
+  +String title
+  +bool isCategory
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::search::category_search.dart::CategorySearch"
+
+class "acquirer::features::shop::screens::search::search.dart::SearchScreen" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::search::search.dart::SearchScreen"
+
+class "acquirer::features::shop::screens::search::widgets::category_cart_horizontal.dart::CategoryCartHorizontal" {
+  +String categoryName
+  +String imageUrl
+  +bool isNetworkImage
+  +void Function()? onPressed
+  +Widget build()
+}
+
+"acquirer::features::shop::screens::search::widgets::category_cart_horizontal.dart::CategoryCartHorizontal" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::search::widgets::category_cart_horizontal.dart::CategoryCartHorizontal"
+
+class "acquirer::features::shop::screens::search::widgets::category_cart_shimmer.dart::CategoryCartShimmer" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::search::widgets::category_cart_shimmer.dart::CategoryCartShimmer"   
+
+class "acquirer::features::shop::screens::search::widgets::search_appbar.dart::SearchAppBar" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::search::widgets::search_appbar.dart::SearchAppBar"
+
+class "acquirer::features::shop::screens::search::widgets::search_container.dart::SearchContainer" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::search::widgets::search_container.dart::SearchContainer"
+
+class "acquirer::features::shop::screens::search::widgets::separator.dart::Separator" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::search::widgets::separator.dart::Separator"
+
+class "acquirer::features::shop::screens::search::widgets::sorting.dart::SortingWidget" {
+  +_SortingWidgetState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "acquirer::features::shop::screens::search::widgets::sorting.dart::SortingWidget"
+
+class "acquirer::features::shop::screens::search::widgets::sorting.dart::_SortingWidgetState" {
+  -String _selectedSortingOption
+  -bool _isAscending
+  -List<String> _sortingOptions
+  +Widget build()
+  -void _showSortingOptions()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "acquirer::features::shop::screens::search::widgets::sorting.dart::_SortingWidgetState"
+
+class "acquirer::features::shop::screens::settings::settings_screen.dart::SettingsScreen" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::settings::settings_screen.dart::SettingsScreen"
+
+class "acquirer::features::shop::screens::settings::widgets::settings_appbar.dart::SettingsAppBar" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::settings::widgets::settings_appbar.dart::SettingsAppBar"
+
+class "acquirer::features::shop::screens::settings::widgets::settings_option.dart::SettingOption" {
+  +IconData? icon
+  +String text
+  +void Function()? onPressed
+  +Widget build()
+}
+
+"acquirer::features::shop::screens::settings::widgets::settings_option.dart::SettingOption" o-- "flutter::src::widgets::icon_data.dart::IconData"
+"acquirer::features::shop::screens::settings::widgets::settings_option.dart::SettingOption" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::settings::widgets::settings_option.dart::SettingOption"
+
+class "acquirer::features::shop::screens::settings::widgets::unregistered.dart::Unregistered" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::settings::widgets::unregistered.dart::Unregistered"
+
+class "acquirer::features::shop::screens::wishlist::widgets::wishlist_appbar.dart::WishAppBar" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::wishlist::widgets::wishlist_appbar.dart::WishAppBar"
+
+class "acquirer::features::shop::screens::wishlist::wishlist.dart::WishScreen" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::features::shop::screens::wishlist::wishlist.dart::WishScreen"
+
+class "acquirer::firebase_options.dart::DefaultFirebaseOptions" {
+  {static} +FirebaseOptions web
+  {static} +FirebaseOptions android
+  {static} +FirebaseOptions currentPlatform
+}
+
+"acquirer::firebase_options.dart::DefaultFirebaseOptions" o-- "firebase_core_platform_interface::firebase_core_platform_interface.dart::FirebaseOptions"
+
+class "acquirer::navigation_menu.dart::NavigationMenu" {
+  +int? screenIndex
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "acquirer::navigation_menu.dart::NavigationMenu"
+
+class "acquirer::navigation_menu.dart::NavigationController" {
+  +Rx<int> selectedIndex
+  +List<StatelessWidget> screens
+}
+
+"acquirer::navigation_menu.dart::NavigationController" o-- "get::get_rx::src::rx_types::rx_types.dart::Rx<int>"
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "acquirer::navigation_menu.dart::NavigationController"
+
+class "acquirer::utils::constants::colors.dart::TColors" {
+  {static} +Color primary
+  {static} +Color secondary
+  {static} +Color accent
+  {static} +Color textPrimary
+  {static} +Color textSecondary
+  {static} +Color textWhite
+  {static} +Color backgroundLight
+  {static} +Color backgroundDark
+  {static} +Color backgroundPrimary
+  {static} +Color containerLight
+  {static} +Color containerDark
+  {static} +Color buttonPrimary
+  {static} +Color buttonSecondary
+  {static} +Color buttonDisabled
+  {static} +Color borderPrimary
+  {static} +Color borderSecondary
+  {static} +Color error
+  {static} +Color success
+  {static} +Color warning
+  {static} +Color info
+  {static} +Color black
+  {static} +Color darkerGrey
+  {static} +Color darkGrey
+  {static} +Color grey
+  {static} +Color softGrey
+  {static} +Color lightGrey
+  {static} +Color white
+}
+
+"acquirer::utils::constants::colors.dart::TColors" o-- "dart::ui::Color"
+
+class "acquirer::utils::constants::image_strings.dart::TImages" {
+  {static} +String darkAppLogo
+  {static} +String lightAppLogo
+  {static} +String shoeIcon
+  {static} +String clothIcon
+  {static} +String jeweleryIcon
+  {static} +String sportIcon
+  {static} +String animalIcon
+  {static} +String furnitureIcon
+  {static} +String nikeLogo
+  {static} +String adidasLogo
+  {static} +String appleLogo
+  {static} +String jordanLogo
+  {static} +String pumaLogo
+  {static} +String zaraLogo
+  {static} +String kenwoodLogo
+  {static} +String hermanMillerLogo
+  {static} +String ikeaLogo
+  {static} +String acerlogo
+  {static} +String docerAnimation
+  {static} +String goodsAnimation
+  {static} +String productImage1
+  {static} +String productImage2
+  {static} +String productImage3
+  {static} +String productImage4
+  {static} +String productImage5
+  {static} +String productImage6
+  {static} +String productImage7
+  {static} +String productImage8
+  {static} +String productImage9
+  {static} +String productImage10
+  {static} +String productImage11
+  {static} +String productImage12
+  {static} +String productImage13
+  {static} +String productImage14
+  {static} +String productImage15
+  {static} +String productImage16
+  {static} +String productImage17
+  {static} +String productImage18
+  {static} +String productImage19
+  {static} +String productImage20
+  {static} +String productImage21
+  {static} +String productImage22
+  {static} +String productImage23
+  {static} +String productImage24
+  {static} +String productImage25
+  {static} +String productImage26
+  {static} +String productImage27
+  {static} +String productImage28
+  {static} +String productImage29
+  {static} +String productImage30
+  {static} +String productImage31
+  {static} +String productImage32
+  {static} +String productImage33
+  {static} +String productImage34
+  {static} +String productImage35
+  {static} +String productImage36
+  {static} +String productImage37
+  {static} +String productImage38
+  {static} +String productImage39
+  {static} +String productImage40
+  {static} +String productImage41
+  {static} +String productImage42
+  {static} +String productImage43
+  {static} +String productImage44
+  {static} +String productImage45
+  {static} +String productImage46
+  {static} +String productImage47
+  {static} +String productImage48
+  {static} +String productImage49
+  {static} +String productImage50
+  {static} +String productImage51
+  {static} +String productImage52
+  {static} +String productImage53
+  {static} +String productImage54
+  {static} +String productImage55
+  {static} +String productImage56
+  {static} +String productImage57
+  {static} +String productImage58
+  {static} +String productImage59
+  {static} +String productImage60
+  {static} +String productImage61
+  {static} +String productImage62
+  {static} +String productImage63
+  {static} +String productImage64
+  {static} +String productImage65
+  {static} +String productImage66
+  {static} +String productImage67
+  {static} +String productImage68
+  {static} +String productImage69
+  {static} +String productImage70
+  {static} +String productImage71
+  {static} +String productImage72
+  {static} +String productImage73
+  {static} +String productImage74
+  {static} +String productImage75
+  {static} +String productImage76
+  {static} +String productImage77
+}
+
+class "acquirer::utils::constants::sizes.dart::TSizes" {
+  {static} +double xxs
+  {static} +double xs
+  {static} +double sm
+  {static} +double md
+  {static} +double lg
+  {static} +double xl
+  {static} +double iconXs
+  {static} +double iconSm
+  {static} +double iconMd
+  {static} +double iconLg
+  {static} +double fontSizeSm
+  {static} +double fontSizeMd
+  {static} +double fontSizeLg
+  {static} +double buttonHeight
+  {static} +double buttonRadius
+  {static} +double buttonWidth
+  {static} +double buttonElevation
+  {static} +double appBarHeight
+  {static} +double imageThumbSize
+  {static} +double spaceDefault
+  {static} +double spaceBtwItems
+  {static} +double spaceBtwSections
+  {static} +double borderRadiusSm
+  {static} +double borderRadiusMd
+  {static} +double borderRadiusLg
+  {static} +double dividerHeight
+  {static} +double productImageSize
+  {static} +double productImageRadius
+  {static} +double productItemHeight
+  {static} +double inputFieldRadius
+  {static} +double spaceBtwInputFields
+  {static} +double cardRadiusLg
+  {static} +double cardRadiusMd
+  {static} +double cardRadiusSm
+  {static} +double cardRadiusXs
+  {static} +double cardElevation
+  {static} +double imageCarouselHeight
+  {static} +double loadingIndicatorSize
+  {static} +double gridViewSpacing
+}
+
+class "acquirer::utils::constants::text_strings.dart::TTexts" {
+  {static} +String and
+  {static} +String skip
+  {static} +String done
+  {static} +String submit
+  {static} +String appName
+  {static} +String tContinue
+  {static} +String loginTitle
+  {static} +String loginSubTitle
+  {static} +String loginGoogle
+  {static} +String loginGuest
+  {static} +String barHome
+  {static} +String barSearch
+  {static} +String barWish
+  {static} +String barSettings
+  {static} +String popularProducts
+  {static} +String addTo
+  {static} +String homeAppbarTitle
+  {static} +String homeAppbarSubTitle
+  {static} +String searchAppbarTitle
+  {static} +String searchField
+  {static} +String resultsFor
+  {static} +String wishAppbarTitle
+  {static} +String settingsAppbarTitle
+}
+
+class "acquirer::utils::device::device_utility.dart::DeviceUtils" {
+  {static} +void hideKeyboard()
+  {static} +dynamic setStatusBarColor()
+  {static} +bool isLandscapeOrientation()
+  {static} +bool isPortraitOrientation()
+  {static} +void setFullScreen()
+  {static} +double getScreenHeight()
+  {static} +double getScreenWidth()
+  {static} +double getPixelRatio()
+  {static} +double getStatusBarHeight()
+  {static} +double getBottomNavigationBarHeight()
+  {static} +double getAppBarHeight()
+  {static} +double getKeyboardHeight()
+  {static} +dynamic isKeyboardVisible()
+  {static} +dynamic isPhysicalDevice()
+  {static} +void vibrate()
+  {static} +dynamic setPreferredOrientations()
+  {static} +void hideStatusBar()
+  {static} +void showStatusBar()
+  {static} +dynamic hasInternetConnection()
+  {static} +bool isIOS()
+  {static} +bool isAndroid()
+  {static} +void launchUrl()
+}
+
+class "acquirer::utils::helpers::dummy_data.dart::DummyData" {
+  {static} +List<CategoryModel> categories
+  {static} +List<BrandModel> brands
+  {static} +List<ProductModel> products
+}
+
+class "acquirer::utils::helpers::helper_functions.dart::HelperFunctions" {
+  {static} +Color? getColor()
+  {static} +void showSnackBar()
+  {static} +void showAlert()
+  {static} +void navigateToScreen()
+  {static} +String truncateText()
+  {static} +bool isDarkMode()
+  {static} +Size screenSize()
+  {static} +double screenHeight()
+  {static} +double screenWidth()
+  {static} +String getFormattedDate()
+  {static} +List<T> removeDuplicates()
+  {static} +List<Widget> wrapWidgets()
+}
+
+class "acquirer::utils::local_storage::storage_utility.dart::LocalStorage" {
+  -GetStorage _storage
+  {static} -LocalStorage? _instance
+  {static} +dynamic init()
+  +dynamic saveData()
+  +T? readData()
+  +dynamic removeData()
+  +dynamic clearAll()
+}
+
+"acquirer::utils::local_storage::storage_utility.dart::LocalStorage" o-- "get_storage::src::storage_impl.dart::GetStorage"
+"acquirer::utils::local_storage::storage_utility.dart::LocalStorage" o-- "acquirer::utils::local_storage::storage_utility.dart::LocalStorage"
+
+class "acquirer::utils::theme::custom_themes::appbar_theme.dart::TAppBarTheme" {
+  {static} +AppBarTheme lightAppBarTheme
+}
+
+"acquirer::utils::theme::custom_themes::appbar_theme.dart::TAppBarTheme" o-- "flutter::src::material::app_bar_theme.dart::AppBarTheme"
+
+class "acquirer::utils::theme::custom_themes::bottom_sheet_theme.dart::TBottomSheetTheme" {
+  {static} +BottomSheetThemeData lightBottomSheetTheme
+}
+
+"acquirer::utils::theme::custom_themes::bottom_sheet_theme.dart::TBottomSheetTheme" o-- "flutter::src::material::bottom_sheet_theme.dart::BottomSheetThemeData"       
+
+class "acquirer::utils::theme::custom_themes::checkbox_theme.dart::TCheckboxTheme" {
+  {static} +CheckboxThemeData lightCheckboxTheme
+}
+
+"acquirer::utils::theme::custom_themes::checkbox_theme.dart::TCheckboxTheme" o-- "flutter::src::material::checkbox_theme.dart::CheckboxThemeData"
+
+class "acquirer::utils::theme::custom_themes::chip_theme.dart::TChipTheme" {
+  {static} +ChipThemeData lightChipTheme
+}
+
+"acquirer::utils::theme::custom_themes::chip_theme.dart::TChipTheme" o-- "flutter::src::material::chip_theme.dart::ChipThemeData"
+
+class "acquirer::utils::theme::custom_themes::elevated_button_theme.dart::TElevatedButtonTheme" {
+  {static} +ElevatedButtonThemeData lightElevatedButtonTheme
+}
+
+"acquirer::utils::theme::custom_themes::elevated_button_theme.dart::TElevatedButtonTheme" o-- "flutter::src::material::elevated_button_theme.dart::ElevatedButtonThemeData"
+
+class "acquirer::utils::theme::custom_themes::outlined_button_theme.dart::TOutlinedButtonTheme" {
+  {static} +OutlinedButtonThemeData lightOutlinedButtonTheme
+}
+
+"acquirer::utils::theme::custom_themes::outlined_button_theme.dart::TOutlinedButtonTheme" o-- "flutter::src::material::outlined_button_theme.dart::OutlinedButtonThemeData"
+
+class "acquirer::utils::theme::custom_themes::text_field_theme.dart::TTextFormFieldTheme" {
+  {static} +InputDecorationTheme lightInputDecorationTheme
+}
+
+"acquirer::utils::theme::custom_themes::text_field_theme.dart::TTextFormFieldTheme" o-- "flutter::src::material::input_decorator.dart::InputDecorationTheme"
+
+class "acquirer::utils::theme::custom_themes::text_theme.dart::TTextTheme" {
+  {static} +TextTheme lightTheme
+}
+
+"acquirer::utils::theme::custom_themes::text_theme.dart::TTextTheme" o-- "flutter::src::material::text_theme.dart::TextTheme"
+
+class "acquirer::utils::theme::theme.dart::TAppTheme" {
+  {static} +ThemeData lightTheme
+}
+
+"acquirer::utils::theme::theme.dart::TAppTheme" o-- "flutter::src::material::theme_data.dart::ThemeData"
+
+
+@enduml
