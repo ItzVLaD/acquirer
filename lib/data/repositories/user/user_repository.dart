@@ -34,4 +34,9 @@ class UserRepository extends GetxController {
   Future<void> updateSingleField(Map<String, dynamic> json) async {
     await _db.collection('Users').doc(AuthenticationRepository.instance.authUser?.uid).update(json);
   }
+
+  /// Function to delete user record from Firestore
+  Future<void> deleteUserRecord(String userId) async {
+    await _db.collection('Users').doc(userId).delete();
+  }
 }

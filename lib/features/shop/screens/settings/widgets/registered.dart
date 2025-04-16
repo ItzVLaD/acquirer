@@ -58,16 +58,33 @@ class Registered extends StatelessWidget {
             ],
           ),
           const SizedBox(height: TSizes.xxs * 2),
-          InkWell(
-            onTap: () {
-              controller.logout();
-            },
-            child: Text(
-              'Logout',
-              style: const TextStyle(
-                decoration: TextDecoration.underline,
-              ).copyWith(fontSize: 15, fontWeight: FontWeight.w500, color: TColors.backgroundDark),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InkWell(
+                onTap: () {
+                  controller.logout();
+                },
+                child: Text(
+                  'Logout',
+                  style: const TextStyle(
+                    decoration: TextDecoration.underline,
+                  ).copyWith(fontSize: 15, fontWeight: FontWeight.w500, color: TColors.backgroundDark),
+                ),
+              ),
+              const SizedBox(width: TSizes.lg),
+              InkWell(
+                onTap: () {
+                  controller.deleteAccount();
+                },
+                child: Text(
+                  'Delete Account',
+                  style: const TextStyle(
+                    decoration: TextDecoration.underline,
+                  ).copyWith(fontSize: 15, fontWeight: FontWeight.w500, color: TColors.error),
+                ),
+              ),
+            ],
           )
         ],
       ),

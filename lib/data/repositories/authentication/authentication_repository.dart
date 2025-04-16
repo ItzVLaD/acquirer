@@ -32,4 +32,18 @@ class AuthenticationRepository extends GetxController {
     await GoogleSignIn().signOut();
     await FirebaseAuth.instance.signOut();
   }
+
+  /// Function to delete user account
+  Future<void> deleteUserAccount() async {
+    try {
+      // Delete the user from Firebase Authentication
+      await _auth.currentUser?.delete();
+      // Sign out from Google and Firebase after deletion
+      await GoogleSignIn().signOut();
+      await FirebaseAuth.instance.signOut();
+    } catch (e) {
+      // Re-authentication may be required if the user session has expired
+      rethrow; // Throw the error to be handled by the caller
+    }
+  }
 }

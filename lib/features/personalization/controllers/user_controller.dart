@@ -15,6 +15,7 @@ class UserController extends GetxController {
   /// Variables
   Rx<UserModel> user = UserModel.empty().obs;
   final _userRepository = Get.put(UserRepository());
+  final _authRepository = AuthenticationRepository.instance;
   RxInt noOfCartItems = 0.obs;
   RxDouble totalCartPrice = 0.0.obs;
   RxInt productQuantityInCart = 0.obs;
@@ -76,6 +77,35 @@ class UserController extends GetxController {
         html.window.location.reload();
       },
       onCancel: () => () => Get.back(),
+    );
+  }
+
+  /// Function to delete user account
+  Future<void> deleteAccount() async {
+    Get.defaultDialog(
+      title: 'Delete Account',
+      middleText: 'Are you sure you want to delete your account? This action cannot be undone.',
+      onConfirm: () async {
+        try {
+          // First delete user data from Firestore
+          await _userRepository.deleteUserRecord(user.value.id);
+
+          // Then delete the authentication account
+          await _authRepository.deleteUserAccount();
+
+          // Reload the page to reset the app state
+          html.window.location.reload();
+        } catch (e) {
+          // Show error message if deletion fails
+          Get.back();
+          Get.defaultDialog(
+            title: 'Error',
+            middleText: 'Failed to delete account. You may need to login again before deleting your account.',
+            onConfirm: () => Get.back(),
+          );
+        }
+      },
+      onCancel: () => Get.back(),
     );
   }
 
